@@ -1,21 +1,19 @@
 ---
-import BaseLayout from "./BaseLayout.astro";
-const { frontmatter } = Astro.props;
-const allPosts = await Astro.glob('../pages/posts/*.md');
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const allPosts = await Astro.glob('../posts/*.md');
 const tags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
 
+const pageTitle = "タグ一覧";
 ---
-<BaseLayout pageTitle = {frontmatter.title}>
- <p>投稿日: {frontmatter.pubDate}</p>
- <p>著者: {frontmatter.author}</p>
+
+<BaseLayout pageTitle = {pageTitle}>
  <div class="tags">
-  {frontmatter.tags.map((tag) => (
+  {tags.map((tag) => (
    <p class="tag"><a href={ `/tags/${tag}` }>{tag}</a></p>
    ))}
- </div> <img src={frontmatter.image.url} alt={frontmatter.image.alt}>
- <slot />
-</BaseLayout>
+ </div>
 
+</BaseLayout>
 
 <style>
  a {

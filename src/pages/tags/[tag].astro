@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogPost from '../../components/BlogPost.astro';
+
+export async function getStaticPaths() { // getStaticPaths: 動的に生成するページのパスを定義
+  const allPosts = await Astro.glob('../posts/*.md'); // Astro.glob: 動的に生成するページに関するファイルなどのデータを一括空いとく
+  const uniqueTags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
+  // map: 各投稿オブジェクトから指定した配列を取り出す
+  // flat: 指定した配列の配列(多重配列？)を1つの平坦な配列にする
+  // Setとスプレッド構文: 重複するデータを取り除く
+  // filter: 検索条件を付与し、合致したデータだけを抽出する
+  return uniqueTags.map((tag) => {
+   const filteredPosts = allPosts.filter((post) => post.frontmatter.tags?.includes(tag));
+   return {
+    params: { tag }, // params: URLパラメータ
+    props: { posts: filteredPosts }, // ページに渡すデータを含む配列を返す？
+   };
+  });
+ }
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+
+---
+<BaseLayout pageTitle={tag}>
+  <p>{tag}のタグが付いた記事</p>
+  <ul>
+   {posts.map((post) => <BlogPost url={post.url} title={post.frontmatter.title}/>)}
+ </ul>
+</BaseLayout>
