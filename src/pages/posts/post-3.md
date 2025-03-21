@@ -9,5 +9,6 @@ image:
     alt: "Astroの光線のサムネイル。"
 pubDate: 2022-07-15
 tags: ["astro", "公開学習", "後退", "コミュニティ"]
+category: 'Astro.js'
 ---
 すべてがスムーズにいくわけではありませんでしたが、Astroで何かを作るのは楽しいです。そして、[Discordコミュニティ](https://astro.build/chat)は本当にフレンドリーで助けになります！
